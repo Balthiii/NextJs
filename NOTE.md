@@ -7,3 +7,12 @@ Next.js est un framework de développement web open-source basé sur React, cré
 ## Définition de TypeScript
 
 TypeScript est une surcouche de JavaScript qui ajoute des types statiques optionnels. TypeScript permet de détecter les erreurs de type lors de l'écriture du code, ce qui améliore la qualité et la maintenabilité des applications. L'avantage est la maintenabilité et le code est plus facile à refactoriser.
+
+## Définition d'une prop en React
+
+En React, une "prop" (abréviation de "property") est un mécanisme permettant de passer des données d'un composant parent à un composant enfant. Les props sont immuables, ce qui signifie qu'un composant enfant ne peut pas modifier les props qu'il reçoit. Elles sont utilisées pour configurer et personnaliser les composants, permettant ainsi de créer des interfaces utilisateur dynamiques et réutilisables.
+
+## Le symbole @ en TypeScript
+
+En TypeScript, le symbole @ dans les imports est souvent utilisé pour représenter des alias de chemins. Cela permet de simplifier et de rendre plus lisibles les chemins d'importation, surtout dans les projets avec une structure de dossiers complexe.
+Pour configurer les alias de chemins, vous devez modifier le fichier tsconfig.json de votre projet.
