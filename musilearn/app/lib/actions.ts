@@ -1,10 +1,9 @@
 "use server";
-
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
-
 import bcrypt from "bcrypt";
 import postgres from "postgres";
+import { Course } from "./definitions";
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
@@ -57,4 +56,92 @@ export async function register(
     console.error("Failed to register user:", error);
     throw new Error("Failed to register user.");
   }
+}
+
+export async function createCourse(state: any, formData: FormData) {
+  const title = formData.get("title") as string;
+  const description = formData.get("description") as string;
+  const instrument = formData.get("instrument") as string;
+  const teacherId = formData.get("teacherId") as string;
+  const level = formData.get("level") as string;
+  const schedule = formData.get("schedule") as string;
+  const capacity = parseInt(formData.get("capacity") as string, 10);
+
+  try {
+    const course = await sql`
+      INSERT INTO courses (title, description, instrument, teacherId, level, schedule, capacity)
+      VALUES (${title}, ${description}, ${instrument}, ${teacherId}, ${level}, ${schedule}, ${capacity})
+      RETURNING *;
+    `;
+    return { success: true, course: course[0] };
+  } catch (error) {
+    console.error("Failed to create course:", error);
+    return { success: false, error: "Failed to create course." };
+  }
+}
+
+export async function updateCourse(id: string, formData: FormData) {
+  const title = formData.get("title") as string;
+  const description = formData.get("description") as string;
+  const instrument = formData.get("instrument") as string;
+  const level = formData.get("level") as string;
+  const schedule = formData.get("schedule") as string;
+  const capacity = parseInt(formData.get("capacity") as string, 10);
+
+  try {
+    const course = await sql`
+      UPDATE courses
+      SET title = ${title}, description = ${description}, instrument = ${instrument}, level = ${level}, schedule = ${schedule}, capacity = ${capacity}
+      WHERE id = ${id}
+      RETURNING *;
+    `;
+    return course[0];
+  } catch (error) {
+    console.error("Failed to update course:", error);
+    throw new Error("Failed to update course.");
+  }
+}
+
+export async function deleteCourse(id: string) {
+  try {
+    await sql`
+      DELETE FROM courses WHERE id = ${id};
+    `;
+  } catch (error) {
+    console.error("Failed to delete course:", error);
+    throw new Error("Failed to delete course.");
+  }
+}
+
+export async function getCourses() {
+  try {
+    const courses = await sql`
+      SELECT * FROM courses;
+    `;
+    return courses;
+  } catch (error) {
+    console.error("Failed to fetch courses:", error);
+    throw new Error("Failed to fetch courses.");
+  }
+}
+
+export async function getTeachers(): Promise<{ id: string; name: string }[]> {
+  try {
+    const result = await sql`
+      SELECT id, name FROM users WHERE role = 'teacher';
+    `;
+    return result.map((row: any) => ({ id: row.id, name: row.name }));
+  } catch (error) {
+    console.error("Failed to fetch teachers:", error);
+    return []; // Retourner un tableau vide en cas d'erreur
+  }
+}
+
+export async function fetchCourseById(id: string): Promise<Course> {
+  const [course] = await sql<Course[]>`
+    SELECT id, title, description, instrument, teacherId, level, schedule, capacity
+    FROM courses
+    WHERE id = ${id}
+  `;
+  return course;
 }

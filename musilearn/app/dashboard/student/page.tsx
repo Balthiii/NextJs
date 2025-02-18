@@ -1,12 +1,12 @@
 import React from "react";
 
-const StudentDashboard = () => {
+const StudentDashboard: React.FC = () => {
   return (
     <div>
       <h1>Student Dashboard</h1>
       <p>
-        Welcome to the student dashboard. Here you can view your courses and
-        track your progress.
+        Welcome to your dashboard. Here you can find all your learning resources
+        and track your progress.
       </p>
     </div>
   );
