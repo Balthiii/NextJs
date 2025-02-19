@@ -4,6 +4,7 @@ import { AuthError } from "next-auth";
 import bcrypt from "bcrypt";
 import postgres from "postgres";
 import { Course } from "./definitions";
+import { Progress, User } from "./definitions";
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
@@ -144,4 +145,65 @@ export async function fetchCourseById(id: string): Promise<Course> {
     WHERE id = ${id}
   `;
   return course;
+}
+
+export async function fetchStudentsProgress(): Promise<Progress[]> {
+  try {
+    const progressRecords = await sql<Progress[]>`
+      SELECT * FROM progress;
+    `;
+    return progressRecords;
+  } catch (error) {
+    console.error("Failed to fetch progress records:", error);
+    throw new Error("Failed to fetch progress records.");
+  }
+}
+export async function updateProgress(
+  id: string,
+  progress: Partial<Progress>
+): Promise<Progress> {
+  try {
+    const [updatedProgress] = await sql<Progress[]>`
+      UPDATE progress
+      SET evaluation = ${progress.evaluation ?? null}, comments = ${
+      progress.comments ?? null
+    }, date = ${progress.date ?? null}
+      WHERE id = ${id}
+      RETURNING *;
+    `;
+    return updatedProgress;
+  } catch (error) {
+    console.error("Failed to update progress:", error);
+    throw new Error("Failed to update progress.");
+  }
+}
+
+export async function createProgress(
+  progress: Partial<Progress>
+): Promise<Progress> {
+  try {
+    const [newProgress] = await sql<Progress[]>`
+      INSERT INTO progress (studentId, courseId, evaluation, comments, date)
+      VALUES (${progress.studentId ?? null}, ${progress.courseId ?? null}, ${
+      progress.evaluation ?? null
+    }, ${progress.comments ?? null}, ${progress.date ?? new Date()})
+      RETURNING *;
+    `;
+    return newProgress;
+  } catch (error) {
+    console.error("Failed to create progress:", error);
+    throw new Error("Failed to create progress.");
+  }
+}
+
+export async function getStudents(): Promise<User[]> {
+  try {
+    const students = await sql<User[]>`
+      SELECT * FROM users WHERE role = 'student';
+    `;
+    return students;
+  } catch (error) {
+    console.error("Failed to fetch students:", error);
+    throw new Error("Failed to fetch students.");
+  }
 }

@@ -1,5 +1,7 @@
 import postgres from "postgres";
 import { Course } from "../lib/definitions";
+import { Enrollment } from "@/app/lib/definitions";
+
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
 export const fetchCourses = async (): Promise<Course[]> => {
