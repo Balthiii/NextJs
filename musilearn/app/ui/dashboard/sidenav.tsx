@@ -28,6 +28,13 @@ export default function SideNav() {
               </span>
             </Link>
           </li>
+          <li>
+            <Link href="/dashboard/student/courses">
+              <span className="block px-4 py-2 rounded-md text-gray-700 hover:bg-gray-200 hover:text-gray-900 transition-colors">
+                Cours étudiants
+              </span>
+            </Link>
+          </li>
         </ul>
       </nav>
       <div className="flex items-center justify-end mt-4">

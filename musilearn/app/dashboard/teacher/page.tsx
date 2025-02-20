@@ -46,34 +46,43 @@ export default function Page() {
   };
 
   return (
-    <main>
-      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+    <main className="p-6 bg-gray-100 min-h-screen">
+      <h1
+        className={`${lusitana.className} mb-6 text-2xl md:text-3xl font-bold text-center`}
+      >
         Dashboard
       </h1>
-      <Link href="/dashboard/course/create">
-        <button className="bg-blue-500 text-white px-4 py-2 rounded mb-4">
-          Créer un nouveau cours
-        </button>
-      </Link>
+      <div className="flex justify-center mb-6">
+        <Link href="/dashboard/course/create">
+          <span className="bg-blue-500 text-white px-6 py-3 rounded shadow hover:bg-blue-600 transition-colors">
+            Créer un nouveau cours
+          </span>
+        </Link>
+      </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {courses.map((course) => (
-          <div key={course.id} className="border p-4 rounded">
-            <h3>{course.title}</h3>
-            <p>{course.description}</p>
-            <p>{course.instrument}</p>
-            <p>{course.level}</p>
+          <div
+            key={course.id}
+            className="bg-white border p-4 rounded shadow hover:shadow-lg transition-shadow"
+          >
+            <h3 className="text-lg font-semibold mb-2">{course.title}</h3>
+            <p className="text-gray-600 mb-2">{course.description}</p>
+            <p className="text-sm text-gray-500 mb-2">
+              Instrument: {course.instrument}
+            </p>
+            <p className="text-sm text-gray-500 mb-4">Niveau: {course.level}</p>
             <div className="flex justify-between">
               <button
                 onClick={() => handleDelete(course.id)}
-                className="bg-red-500 text-white px-4 py-2 rounded mt-2"
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors"
               >
                 Supprimer
               </button>
               <Link href={`/dashboard/course/edit/${course.id}`}>
-                <button className="bg-yellow-500 text-white px-4 py-2 rounded mt-2">
+                <span className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition-colors">
                   Éditer
-                </button>
+                </span>
               </Link>
             </div>
           </div>

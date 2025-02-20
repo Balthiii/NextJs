@@ -207,3 +207,31 @@ export async function getStudents(): Promise<User[]> {
     throw new Error("Failed to fetch students.");
   }
 }
+
+export async function fetchCourses(): Promise<Course[]> {
+  try {
+    const courses = await sql<Course[]>`
+      SELECT * FROM courses;
+    `;
+    return courses;
+  } catch (error) {
+    console.error("Failed to fetch courses:", error);
+    throw new Error("Failed to fetch courses.");
+  }
+}
+
+export async function enrollInCourse(
+  studentId: string,
+  courseId: string
+): Promise<void> {
+  try {
+    // Assuming you have a table `enrollments` to track course enrollments
+    await sql`
+      INSERT INTO enrollments (studentId, courseId)
+      VALUES (${studentId}, ${courseId});
+    `;
+  } catch (error) {
+    console.error("Failed to enroll in course:", error);
+    throw new Error("Failed to enroll in course.");
+  }
+}
