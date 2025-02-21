@@ -15,7 +15,7 @@ import { useSearchParams } from "next/navigation";
 
 export default function SignupForm() {
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+  const callbackUrl = searchParams?.get("callbackUrl") || "/dashboard";
   const [errorMessage, formAction, isPending] = useActionState(
     (state: any, formData: FormData) => register(state, formData),
     {}
