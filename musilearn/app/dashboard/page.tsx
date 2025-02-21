@@ -9,7 +9,7 @@ export default function Dashboard() {
         Bienvenue sur votre espace MusiLearn.
       </p>
       <Image
-        src="/musilearn.jpg" // Chemin correct pour l'image dans le dossier public
+        src="/musilearn.jpg"
         alt="Welcome"
         width={500}
         height={300}

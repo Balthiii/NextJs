@@ -134,7 +134,7 @@ export async function getTeachers(): Promise<{ id: string; name: string }[]> {
     return result.map((row: any) => ({ id: row.id, name: row.name }));
   } catch (error) {
     console.error("Failed to fetch teachers:", error);
-    return []; // Retourner un tableau vide en cas d'erreur
+    return [];
   }
 }
 
@@ -225,7 +225,6 @@ export async function enrollInCourse(
   courseId: string
 ): Promise<void> {
   try {
-    // Assuming you have a table `enrollments` to track course enrollments
     await sql`
       INSERT INTO enrollments (studentId, courseId)
       VALUES (${studentId}, ${courseId});

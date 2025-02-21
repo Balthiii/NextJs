@@ -103,10 +103,10 @@ async function seedProgress() {
 export async function GET() {
   try {
     await sql.begin(async (sql) => {
-      await seedUsers(); // Insérer d'abord les utilisateurs
-      await seedCourses(); // Puis les cours (qui dépendent des utilisateurs)
-      await seedEnrollments(); // Ensuite les inscriptions
-      await seedProgress(); // Enfin le suivi des progrès
+      await seedUsers();
+      await seedCourses();
+      await seedEnrollments();
+      await seedProgress();
     });
 
     return Response.json({ message: "Database seeded successfully" });
