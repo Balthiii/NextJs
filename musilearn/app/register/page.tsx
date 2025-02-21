@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import SignupForm from "@/app/ui/signup-form";
 
 export default function RegisterPage() {
@@ -7,7 +8,9 @@ export default function RegisterPage() {
         <h1 className="text-6xl font-bold">Create an Account</h1>
         <p className="mt-3 text-2xl">Sign up to access your dashboard</p>
         <div className="mt-6 w-full max-w-md">
-          <SignupForm />
+          <Suspense fallback={<div>Loading...</div>}>
+            <SignupForm />
+          </Suspense>
         </div>
       </main>
     </div>
