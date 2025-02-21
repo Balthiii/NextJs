@@ -55,11 +55,11 @@ L'application sera accessible à l'adresse [http://localhost:3000](http://localh
    - Inscription aux cours
    - Consultation des évaluations
    - Historique des cours
-  
-## Vercel
-
-https://musilearn-project.vercel.app/
 
 4. **Administration**
    - Gestion des utilisateurs
    - Attribution des cours
+
+## Vercel
+
+https://musilearn-project.vercel.app/
